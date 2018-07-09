@@ -7,7 +7,6 @@ setup(name='resume_exporter',
       author='riminder',
       author_email='contact@rimider.net',
       license='MIT',
-      packages=['.'],
       install_requires=[
           'riminder==1.0.4'
       ],
