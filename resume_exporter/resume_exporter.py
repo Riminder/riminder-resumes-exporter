@@ -7,9 +7,9 @@ import sys
 
 import riminder
 
-import api_utils
-import export_supervisor
-import printer
+from resume_exporter import api_utils
+from resume_exporter import export_supervisor
+from resume_exporter import printer
 
 
 def parse_args():

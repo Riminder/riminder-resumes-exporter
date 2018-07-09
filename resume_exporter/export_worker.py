@@ -4,7 +4,7 @@ import threading
 import urllib
 import os
 
-from export_result import Export_result, Export_document_result
+from resume_exporter import export_result
 
 
 class Export_worker(threading.Thread):
@@ -44,7 +44,7 @@ class Export_worker(threading.Thread):
         return os.path.join(self.export_target, source_folder, profile_folder, file_name)
 
     def _export_document(self, document):
-        edr = Export_document_result()
+        edr = export_result.Export_document_result()
         try:
             os.makedirs(os.path.dirname(document.export_path), exist_ok=True)
             urllib.request.urlretrieve(document.url, document.export_path)
@@ -56,7 +56,7 @@ class Export_worker(threading.Thread):
         return edr
 
     def _export_profile(self):
-        res = Export_result(self.profile_to_process)
+        res = export_result.Export_result(self.profile_to_process)
         err = self.profile_to_process.fill_documents_from_api(self.api)
         if err is not None:
             res.setFailure(err)

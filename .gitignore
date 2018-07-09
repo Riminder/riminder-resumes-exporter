@@ -1,3 +1,9 @@
 env
 __pycache__
 target
+build
+dist
+resume_exporter.egg-info
+riminder_resume_exporter.egg-info
+deploy
+superman

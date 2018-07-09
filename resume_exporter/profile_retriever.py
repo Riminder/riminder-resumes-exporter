@@ -1,7 +1,7 @@
 """Class that manage profile retrieving process."""
 
-import profile_entity
-import api_utils
+from resume_exporter import profile_entity
+from resume_exporter import api_utils
 
 
 # 12 decembre 2012

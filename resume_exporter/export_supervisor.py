@@ -7,9 +7,9 @@ import sys
 
 import riminder
 
-import profile_retriever
-from export_worker import Export_worker
-import printer
+from resume_exporter import profile_retriever
+from resume_exporter import export_worker
+from resume_exporter import printer
 
 
 class Export_supervisor(object):
@@ -55,7 +55,7 @@ class Export_supervisor(object):
 
     def _init_workers(self):
         for i in range(self.n_worker):
-            self.workers[i] = Export_worker(i, self.api, self.target)
+            self.workers[i] = export_worker.Export_worker(i, self.api, self.target)
             # Give a file before start a worker to avoid the workers to die instantly
             self._set_worker_profile(i)
 

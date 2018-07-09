@@ -1,6 +1,6 @@
 from setuptools import setup
 
-setup(name='resume_exporter',
+setup(name='riminder_resume_exporter',
       version='0.0.1',
       description='Riminder resume exporter.',
       url='https://github.com/Riminder/riminder-resumes-exporter',
@@ -10,9 +10,10 @@ setup(name='resume_exporter',
       install_requires=[
           'riminder==1.0.4'
       ],
+      packages=['resume_exporter'],
       entry_points={
         'console_scripts': [
-            'resumeExporter = resume_exporter:main',
+            'resumeExporter = resume_exporter.resume_exporter:main',
         ]
       },
       python_requires='>=3.5',

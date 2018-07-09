@@ -2,7 +2,7 @@
 
 import riminder
 
-import api_utils
+from resume_exporter import api_utils
 
 
 class ProfileDocument(object):
