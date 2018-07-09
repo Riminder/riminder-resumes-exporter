@@ -64,16 +64,22 @@ def get_user_data(args):
     return (args, None)
 
 
-args = parse_args()
-args, err = get_user_data(args)
-if err is not None:
-    raise BaseException("Error during startup: {}".format(err))
+def main():
+    """Well..."""
+    args = parse_args()
+    args, err = get_user_data(args)
+    if err is not None:
+        raise BaseException("Error during startup: {}".format(err))
 
-if not os.path.isdir(args.target):
-    raise BaseException("'{}' is not a directory.".format(args.target))
+    if not os.path.isdir(args.target):
+        raise BaseException("'{}' is not a directory.".format(args.target))
 
-if args.n_worker < 1:
-    raise BaseException("{} is not a valid n_worker, must be greater than 0".format(args.n_worker))
+    if args.n_worker < 1:
+        raise BaseException("{} is not a valid n_worker, must be greater than 0".format(args.n_worker))
 
-export_sup = export_supervisor.Export_supervisor(args)
-export_sup.start()
+    export_sup = export_supervisor.Export_supervisor(args)
+    export_sup.start()
+
+
+if __name__ == '__main__':
+    main()
