@@ -2,7 +2,6 @@
 
 import threading
 import urllib
-import shutil
 import os
 
 from export_result import Export_result, Export_document_result
@@ -37,6 +36,7 @@ class Export_worker(threading.Thread):
             self.process_file()
 
     def _generate_export_path(self, document):
+        # $taget_path/$source_name_$source_id/$profile_id/document_file_name
         source_folder = "{}_{}".format(self.profile_to_process.source_name,
             self.profile_to_process.source_id)
         profile_folder = self.profile_to_process.id

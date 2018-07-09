@@ -1,13 +1,9 @@
 #!/usr/bin/python3
 """Export profiles files from the platform to a given file."""
 
-import random
-import threading
 import argparse
 import os
-import json
 import sys
-import time
 
 import riminder
 
@@ -31,6 +27,7 @@ def parse_args():
 
 
 def get_all_source_ids(api):
+    """Get all source id for a given key."""
     res = []
     resp, err = api_utils.exec_api_call(lambda: api.source.list())
     if err is not None:

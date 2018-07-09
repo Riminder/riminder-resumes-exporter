@@ -10,34 +10,6 @@ VERBOSE_LEVEL_VERBOSE = 'verbose'
 
 SIZE_PROGRESS_BAR = 35
 
-# normal start
-# $n source to export
-
-# verbose start
-# $source ids to export
-
-# normal update
-# $progressBar sources %$percent_sources
-#
-# source: $name id: $name
-# $progressBar profile source %$percent_profiles
-
-# verbose update
-# json  data profile
-# json data source (stat ?)
-
-# normal end source
-# json profile with failed docs
-
-# verbose end source
-# json all profiles
-
-# all full end
-# n total profile exported
-# n total profile failed
-
-# logfile same as verbose update
-
 
 class Printer(object):
     """Manage print operation."""
@@ -84,7 +56,7 @@ class Printer(object):
             bar += c
         bar = '[{}]'.format(bar)
 
-        # Little points after the progress bar to be sure it hasn't crash :)
+        # Little points after the progress bar to be sure it hasn't crash (yet) :)
         for z in range(5):
             c = '.'
             if z == random_pic:
@@ -142,7 +114,7 @@ class Printer(object):
     def print_something(self, to_print, is_err=False, is_no_end=False):
         """Print on term."""
         # use of the printer lock to avoid message mixing
-        # (not useful a the moment)
+        # (pretty useless a the moment)
         self.lock_printer.acquire()
         out = sys.stdout
         end = '\n'
@@ -154,12 +126,14 @@ class Printer(object):
         self.lock_printer.release()
 
     def print_start(self):
+        """Print at start of the process."""
         if self.v_level == VERBOSE_LEVEL_SILENT:
             return
         to_print = self._p_print_start()
         self.print_something(to_print)
 
     def print_update(self, profile_res):
+        """Print when a profile has been exported."""
         if self.logfile and profile_res is not None:
             to_print = self._p_print_verbose_update(profile_res)
             self.logfile.write(to_print)
@@ -172,6 +146,7 @@ class Printer(object):
             self.print_something(self._p_print_verbose_update(profile_res, add_percentage=True), is_no_end=True)
 
     def print_end_source(self):
+        """Print when a source has been exported."""
         if self.v_level == VERBOSE_LEVEL_SILENT:
             return
         if self.v_level == VERBOSE_LEVEL_VERBOSE:
@@ -186,6 +161,7 @@ class Printer(object):
         self.print_something(to_print_err, is_err=True)
 
     def print_end(self):
+        """Print when process is finished."""
         if self.v_level == VERBOSE_LEVEL_SILENT:
             return
         self.print_something(self._p_print_end())
