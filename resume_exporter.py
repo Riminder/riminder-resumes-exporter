@@ -21,7 +21,7 @@ def parse_args():
     argsParser = argparse.ArgumentParser(description='Send resume to the platform.')
     argsParser.add_argument('--source_ids', nargs='*', default=None)
     argsParser.add_argument('--api_key', default=None)
-    argsParser.add_argument('--target', default=None)
+    argsParser.add_argument('--target', default=None, required=True)
     argsParser.add_argument('--verbose', action='store_const', const=True, default=False)
     argsParser.add_argument('--silent', action='store_const', const=True, default=False)
     argsParser.add_argument('--n-worker', default=3)
@@ -74,6 +74,9 @@ if err is not None:
 
 if not os.path.isdir(args.target):
     raise BaseException("'{}' is not a directory.".format(args.target))
+
+if args.n_worker < 1:
+    raise BaseException("{} is not a valid n_worker, must be greater than 0".format(args.n_worker))
 
 export_sup = export_supervisor.Export_supervisor(args)
 export_sup.start()
