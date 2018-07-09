@@ -1,5 +1,7 @@
 """Something."""
 
+import json
+
 
 class Export_document_result(object):
 
@@ -35,3 +37,25 @@ class Export_result(object):
             self.is_success = False
             self.message = "At least document has fail."
         self.docResult.append(edr)
+
+    def to_json(self):
+        data = {
+            "no_error": self.is_success,
+            "message": self.message,
+            "profile_id": self.profile.id,
+            "source": {
+                "id": self.profile.source_id,
+                "name": self.profile.source_name
+            },
+            "documents": []
+        }
+        for doc_res in self.docResult:
+            doc_data = {
+                "name": doc_res.document.file_name,
+                "url": doc_res.document.url,
+                "path": doc_res.document.export_path,
+                "success": doc_res.is_success,
+                "message": doc_res.message
+            }
+            data['documents'].append(doc_data)
+        return json.dumps(data)

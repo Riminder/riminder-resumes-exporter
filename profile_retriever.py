@@ -44,7 +44,7 @@ class ProfileRetriever(object):
 
     def get_next_profiles(self):
         if len(self.source_ids) == 0:
-            return None
+            return None, None
         source_id = [self.source_ids.pop()]
 
-        return self._get_profiles(source_id)
+        return (self._get_profiles(source_id), source_id)

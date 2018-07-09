@@ -7,38 +7,7 @@ import riminder
 
 import profile_retriever
 from export_worker import Export_worker
-
-VERBOSE_LEVEL_SILENT = 'silent'
-VERBOSE_LEVEL_NORMAL = 'normal'
-VERBOSE_LEVEL_VERBOSE = 'verbose'
-
-# normal start
-# $n source to export
-
-# verbose start
-# $source ids to export
-
-# normal update
-# $progressBar sources %$percent_sources
-#
-# source: $name id: $name
-# $progressBar profile source %$percent_profiles
-
-# verbose update
-# json  data profile
-# json data source (stat ?)
-
-# normal end source
-# json profile with failed docs
-
-# verbose end source
-# json all profiles
-
-# all full end
-# n total profile exported
-# n total profile failed
-
-# logfile same as verbose update
+import printer
 
 
 class Export_supervisor(object):
@@ -50,6 +19,8 @@ class Export_supervisor(object):
         self.lock_worker = threading.Lock()
 
         self.source_ids = args.source_ids
+        self.n_start_sources = len(self.source_ids)
+        self.current_source = ""
 
         self.target = args.target
         self.v_level = args.v_level
@@ -59,12 +30,13 @@ class Export_supervisor(object):
 
         self.p_retriever = profile_retriever.ProfileRetriever(self.api, self.source_ids)
         self.profiles_to_export = []
-        self.n_profiles_to_export = 0
+        self.n_start_profiles_to_export = 0
         self.n_profile_with_fail = 0
         self.export_result = []
 
         self.n_global_exported_profile = 0
         self.n_global_profile_with_fail = 0
+        self.log_printer = printer.Printer(self)
 
     def _set_worker_profile(self, workerID):
         if len(self.profiles_to_export) == 0:
@@ -86,28 +58,28 @@ class Export_supervisor(object):
         self.n_global_exported_profile += 1
         self._set_worker_profile(workerID)
 
-        # TODO: print update
+        self.log_printer.print_update(result)
         self.lock_worker.release()
 
     def _process_a_source(self):
-        self.n_profiles_to_export = 0
+        self.n_start_profiles_to_export = len(self.profiles_to_export)
         self.n_profile_with_fail = 0
         self.export_result = []
         self._init_workers()
         self.lock_worker.acquire()
-        # TODO: print progress bar
+        self.log_printer.print_update(None)
         for idx, w in enumerate(self.workers):
             self.workers[idx].start()
             time.sleep(0.1)
         self.lock_worker.release()
         for idx, w in enumerate(self.workers):
             self.workers[idx].join()
-        # TODO: print end source
+        self.log_printer.print_end_source()
 
     def start(self):
-        # TODO:  print start
-        self.profiles_to_export = self.p_retriever.get_next_profiles()
+        self.log_printer.print_start()
+        self.profiles_to_export, self.current_source = self.p_retriever.get_next_profiles()
         while self.profiles_to_export is not None:
             self._process_a_source()
-            self.profiles_to_export = self.p_retriever.get_next_profiles()
-        # TODO: print end
+            self.profiles_to_export, self.current_source = self.p_retriever.get_next_profiles()
+        self.log_printer.print_end()

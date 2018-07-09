@@ -13,6 +13,7 @@ import riminder
 
 import api_utils
 import export_supervisor
+import printer
 
 
 def parse_args():
@@ -58,11 +59,11 @@ def get_user_data(args):
         if err is not None:
             return (args, err)
         args.source_ids = source_ids
-    args.v_level = export_supervisor.VERBOSE_LEVEL_NORMAL
+    args.v_level = printer.VERBOSE_LEVEL_NORMAL
     if args.silent:
-        args.v_level = export_supervisor.VERBOSE_LEVEL_SILENT
+        args.v_level = printer.VERBOSE_LEVEL_SILENT
     if args.verbose:
-        args.v_level = export_supervisor.VERBOSE_LEVEL_VERBOSE
+        args.v_level = printer.VERBOSE_LEVEL_VERBOSE
     return (args, None)
 
 
