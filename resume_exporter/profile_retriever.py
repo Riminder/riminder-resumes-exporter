@@ -20,7 +20,7 @@ class ProfileRetriever(object):
     def _get_profiles_base(self, source_ids, page):
         """Get profiles from a given page (see /profiles)."""
         date_start = BASE_DATE_START
-        resp, err = api_utils.exec_api_call(lambda: self.api.profile.list(source_ids=source_ids, limit=1000, date_start=date_start, page=page))
+        resp, err = api_utils.exec_api_call(lambda: self.api.profile.list(source_ids=source_ids, limit=1000, date_start=date_start, page=page, sort_by="reception"))
         if err is not None:
             err = "Cannot get profiles from api: {} (source: {} - page: {})".format(err, source_ids, page)
             raise BaseException(err)
@@ -39,7 +39,7 @@ class ProfileRetriever(object):
         date_start = BASE_DATE_START
         # do the operation once at start to know the number of profiles
         # associated with the sources
-        resp, err = api_utils.exec_api_call(lambda: self.api.profile.list(source_ids=source_ids, limit=1000, date_start=date_start))
+        resp, err = api_utils.exec_api_call(lambda: self.api.profile.list(source_ids=source_ids, limit=1000, date_start=date_start, sort_by="reception"))
         if err is not None:
             err = "Cannot get profiles from api: {} (source: {})".format(err, source_ids)
             raise BaseException(err)

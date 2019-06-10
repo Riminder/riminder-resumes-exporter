@@ -1,14 +1,14 @@
 from setuptools import setup
 
 setup(name='riminder_resume_exporter',
-      version='0.0.1',
+      version='0.0.2',
       description='Riminder resume exporter.',
       url='https://github.com/Riminder/riminder-resumes-exporter',
       author='riminder',
       author_email='contact@rimider.net',
       license='MIT',
       install_requires=[
-          'riminder==1.0.4'
+        'riminder'
       ],
       packages=['resume_exporter'],
       entry_points={

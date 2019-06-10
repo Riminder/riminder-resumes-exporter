@@ -1,5 +1,5 @@
 """Upload worker file."""
-
+import json
 import threading
 import urllib
 import os
@@ -37,8 +37,7 @@ class Export_worker(threading.Thread):
 
     def _generate_export_path(self, document):
         # $taget_path/$source_name_$source_id/$profile_id/document_file_name
-        source_folder = "{}_{}".format(self.profile_to_process.source_name,
-            self.profile_to_process.source_id)
+        source_folder = "{}_{}".format(self.profile_to_process.source_name, self.profile_to_process.source_id)
         profile_folder = self.profile_to_process.id
         file_name = document.file_name
         return os.path.join(self.export_target, source_folder, profile_folder, file_name)
@@ -46,10 +45,14 @@ class Export_worker(threading.Thread):
     def _export_document(self, document):
         edr = export_result.Export_document_result()
         try:
-            os.makedirs(os.path.dirname(document.export_path), exist_ok=True)
-            urllib.request.urlretrieve(document.url, document.export_path)
+            if document.url is not None:
+                os.makedirs(os.path.dirname(document.export_path), exist_ok=True)
+                urllib.request.urlretrieve(document.url, document.export_path)
+            else:
+                with open(document.export_path, "w") as wf:
+                    json.dump(document.data, wf)
         except BaseException as e:
-            edr.setFailure(document, "Cannot download document: {}".format(str(e)))
+            edr.setFailure(document, "Cannot download document or dump json file: {}".format(str(e)))
             print(edr.message)
             return edr
         edr.setSucess(document, "Export sucessful!")
