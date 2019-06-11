@@ -8,7 +8,7 @@ python3 resume_exporter --target TARGET [-h] [--source_ids [SOURCE_IDS [SOURCE_I
 ```
 
 ## description
-  resume_exporter get profile's documents of candidates from the sources that you selected.
+  resume_exporter get profile's documents of candidates and profile parsing from the sources that you selected.
   These documents are dump in the target directory you selected under the following path: `$taget_path/$source_name_$source_id/$profile_id/*`
 
 ## options
@@ -32,4 +32,4 @@ python3 resume_exporter --target TARGET [-h] [--source_ids [SOURCE_IDS [SOURCE_I
   * **Default**: 3
 * --logfile path/to/file
   * Select a file where export logs will be logged
-q
+
