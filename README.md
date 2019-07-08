@@ -1,7 +1,7 @@
 # resume_exporter
 
-```sh
-python3 resumeExporter --target TARGET [-h] [--source_ids [SOURCE_IDS [SOURCE_IDS ...]]]
+``` sh
+resumeExporter --target TARGET [-h] [--source_ids [SOURCE_IDS [SOURCE_IDS ...]]]
                           [--api_key API_KEY] [--verbose]
                           [--silent] [--n-worker N_WORKER] [--logfile LOGFILE]
 ```
