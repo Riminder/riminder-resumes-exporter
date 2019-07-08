@@ -1,17 +1,18 @@
 # resume_exporter
 
-## usage
+## Usage
+
 ```sh
-python3 resume_exporter --target TARGET [-h] [--source_ids [SOURCE_IDS [SOURCE_IDS ...]]]
+python3 resumeExporter --target TARGET [-h] [--source_ids [SOURCE_IDS [SOURCE_IDS ...]]]
                           [--api_key API_KEY] [--verbose]
                           [--silent] [--n-worker N_WORKER] [--logfile LOGFILE]
 ```
 
-## description
+## Description
   resume_exporter get profile's documents of candidates and profile parsing from the sources that you selected.
   These documents are dump in the target directory you selected under the following path: `$taget_path/$source_name_$source_id/$profile_id/*`
 
-## options
+## Options
 * --target path/to/target/directory
   * Directory where profile's files will be dump
   * **Required**
