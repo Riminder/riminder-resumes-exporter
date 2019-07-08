@@ -1,7 +1,5 @@
 # resume_exporter
 
-## Usage
-
 ```sh
 python3 resumeExporter --target TARGET [-h] [--source_ids [SOURCE_IDS [SOURCE_IDS ...]]]
                           [--api_key API_KEY] [--verbose]
