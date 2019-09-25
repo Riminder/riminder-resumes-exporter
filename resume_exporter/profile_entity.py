@@ -14,6 +14,7 @@ class ProfileDocument(object):
         self.url = url
         self.data = data
         self.export_path = None
+        self.export_jsons_path = None
 
 
 class Profile_entity(object):
