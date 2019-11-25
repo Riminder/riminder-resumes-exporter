@@ -22,6 +22,9 @@ resumeExporter --target TARGET [-h] [--source_ids [SOURCE_IDS [SOURCE_IDS ...]]]
 * --api_key api_secret_key
   * Your api secret, available on your riminder platform.
   * Will be asked if absent.
+* --api_url api_url
+  * The url to the riminder api
+  * **Default** "https://www.riminder.net/sf/public/api/v1.0/"
 * --verbose
   * Enable verbose mode
 * --silent
