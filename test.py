@@ -11,12 +11,13 @@ from resume_exporter.profile_entity import Profile_entity
 
 class Helper(object):
     def __init__(self):
+        self.api_url = ""
         self.api_key = ""
         # if you want to use a source in particular set it ti None otherwise
         # must be a list
         self.source_name = []
 
-        self.api = riminder.Riminder(api_key=self.api_key)
+        self.api = riminder.Riminder(api_key=self.api_key, None, self.api_url)
         self.source_id = None
         self.profile_raw = None
         self.documents_raw = None

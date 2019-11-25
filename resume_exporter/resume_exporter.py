@@ -17,6 +17,7 @@ def parse_args():
     argsParser = argparse.ArgumentParser(description='Send resume to the platform.')
     argsParser.add_argument('--source_ids', nargs='*', default=None)
     argsParser.add_argument('--api_key', default=None)
+    argsParser.add_argument('--api_url', default="https://www.riminder.net/sf/public/api/v1.0/")
     argsParser.add_argument('--target', default=None, required=True)
     argsParser.add_argument('--verbose', action='store_const', const=True, default=False)
     argsParser.add_argument('--silent', action='store_const', const=True, default=False)
@@ -51,7 +52,7 @@ def get_user_data(args):
     if args.api_key is None:
         args.api_key = get_from_stdin('api secret key: ')
     if args.source_ids is None:
-        api = riminder.Riminder(args.api_key)
+        api = riminder.Riminder(args.api_key, None, args.api_url)
         source_ids, err = get_all_source_ids(api)
         if err is not None:
             return (args, err)

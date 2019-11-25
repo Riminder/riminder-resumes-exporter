@@ -17,7 +17,7 @@ class Export_supervisor(object):
 
     def __init__(self, args):
         """Init."""
-        self.api = riminder.Riminder(args.api_key)
+        self.api = riminder.Riminder(args.api_key, None, args.api_url)
         self.n_worker = args.n_worker
         self.workers = {}
         self.lock_worker = threading.Lock()
