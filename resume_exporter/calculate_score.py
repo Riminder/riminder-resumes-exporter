@@ -24,21 +24,21 @@ def check_if_desc_exists(value):
         return False
 
 
-def get_ner_score(profile, json_type="underscore"):
-    infos_score, person_score, email_score, phone_score, address_score = ner_infos_score(profile, json_type)
-    exp_score, exp_title_score, exp_desc_score, exp_company_score, exp_start_date_score, exp_end_date_score = ner_exp_score(profile, json_type)
-    edu_score, edu_title_score, edu_desc_score, edu_school_score, edu_start_date_score, edu_end_date_score = ner_edu_score(profile, json_type)
+def get_score(profile, json_type="underscore"):
+    infos_score, person_score, email_score, phone_score, address_score = infos_score(profile, json_type)
+    exp_score, exp_title_score, exp_desc_score, exp_company_score, exp_start_date_score, exp_end_date_score = exp_score(profile, json_type)
+    edu_score, edu_title_score, edu_desc_score, edu_school_score, edu_start_date_score, edu_end_date_score = edu_score(profile, json_type)
 
     expedus_score = 0.5 * (exp_score + edu_score)
 
     if infos_score == 0 and expedus_score == 0:
-        ner_score = 0
+        score = 0
     elif infos_score == 0:
-        ner_score = expedus_score
+        score = expedus_score
     elif expedus_score == 0:
-        ner_score = infos_score
+        score = infos_score
     else:
-        ner_score = 0.5 * (infos_score + expedus_score)
+        score = 0.5 * (infos_score + expedus_score)
 
     return_score = {
         "infos_score": infos_score,
@@ -63,7 +63,7 @@ def get_ner_score(profile, json_type="underscore"):
     return return_score
 
 
-def ner_infos_score(profile, json_type="underscore"):
+def infos_score(profile, json_type="underscore"):
     infos_score = 0
     person_score = 0
     email_score = 0
@@ -92,7 +92,7 @@ def sub_score(N, nb_tags):
     return 1.0 - 1.0 * abs(N - nb_tags) / max(N, nb_tags)
 
 
-def ner_exp_score(profile, json_type="underscore"):
+def exp_score(profile, json_type="underscore"):
     start_date_name = 'start_date' if json_type == "underscore" else 'startDate'
     end_date_name = 'end_date' if json_type == "underscore" else 'endDate'
 
@@ -141,7 +141,7 @@ def ner_exp_score(profile, json_type="underscore"):
     return exp_score, title_score, desc_score, company_score, start_date_score, end_date_score
 
 
-def ner_edu_score(profile, json_type="underscore"):
+def edu_score(profile, json_type="underscore"):
     start_date_name = 'start_date' if json_type == "underscore" else 'startDate'
     end_date_name = 'end_date' if json_type == "underscore" else 'endDate'
 

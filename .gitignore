@@ -8,3 +8,4 @@ riminder_resume_exporter.egg-info
 deploy
 superman
 .vscode
+stats_ner_score.csv

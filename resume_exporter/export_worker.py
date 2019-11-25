@@ -5,7 +5,7 @@ import urllib
 import os
 import pandas as pd
 
-from resume_exporter import calculate_ner_score
+from resume_exporter import calculate_score
 
 from resume_exporter import export_result
 
@@ -79,7 +79,7 @@ class Export_worker(threading.Thread):
 
         data_dir = os.path.join(self.export_target, source_folder)
 
-        ner_scores = {
+        scores = {
             "infos_score": [],
             "person_score": [],
             "email_score": [],
@@ -99,40 +99,40 @@ class Export_worker(threading.Thread):
             "edu_end_date_score": []
         }
 
-        ner_scores_key = list(ner_scores.keys())
+        scores_key = list(scores.keys())
 
-        ner_scores["file_path"] = []
-        ner_scores["has_summary"] = []
-        ner_scores["skills_count"] = []
-        ner_scores["experiences_count"] = []
-        ner_scores["educations_count"] = []
+        scores["file_path"] = []
+        scores["has_summary"] = []
+        scores["skills_count"] = []
+        scores["experiences_count"] = []
+        scores["educations_count"] = []
 
         for data_path in os.listdir(data_dir):
             data = json.load(open(os.path.join(data_dir, data_path), 'r'))
             print(os.path.join(data_dir, data_path))
-            ner_score = calculate_ner_score.get_ner_score(data, json_type='underscore')
-            ner_scores["file_path"] += [data_path]
+            score = calculate_score.get_score(data, json_type='underscore')
+            scores["file_path"] += [data_path]
 
-            for key in ner_scores_key:
-                ner_scores[key] += [ner_score[key]]
+            for key in scores_key:
+                scores[key] += [score[key]]
 
-            ner_scores["has_summary"] += [1 if data["summary"] else 0]
-            ner_scores["skills_count"] += [len(data['skills']['parsed']["all"])]
-            ner_scores["experiences_count"] += [len(data["experiences"])]
-            ner_scores["educations_count"] += [len(data["educations"])]
+            scores["has_summary"] += [1 if data["summary"] else 0]
+            scores["skills_count"] += [len(data['skills']['parsed']["all"])]
+            scores["experiences_count"] += [len(data["experiences"])]
+            scores["educations_count"] += [len(data["educations"])]
 
-        ner_scores["file_path"] += ["Total","Avergae"]
+        scores["file_path"] += ["Total","Avergae"]
 
-        for key in ner_scores_key:
-            ner_scores[key] += [sum(ner_scores[key]), sum(ner_scores[key])/len(ner_scores[key])]
+        for key in scores_key:
+            scores[key] += [sum(scores[key]), sum(scores[key])/len(scores[key])]
 
-        ner_scores["has_summary"] += [sum(ner_scores["has_summary"]), sum(ner_scores["has_summary"])/len(ner_scores["has_summary"])]
-        ner_scores["skills_count"] += [sum(ner_scores["skills_count"]), sum(ner_scores["skills_count"])/len(ner_scores["skills_count"])]
-        ner_scores["experiences_count"] += [sum(ner_scores["experiences_count"]), sum(ner_scores["experiences_count"])/len(ner_scores["experiences_count"])]
-        ner_scores["educations_count"] += [sum(ner_scores["educations_count"]), sum(ner_scores["educations_count"])/len(ner_scores["educations_count"])]
+        scores["has_summary"] += [sum(scores["has_summary"]), sum(scores["has_summary"])/len(scores["has_summary"])]
+        scores["skills_count"] += [sum(scores["skills_count"]), sum(scores["skills_count"])/len(scores["skills_count"])]
+        scores["experiences_count"] += [sum(scores["experiences_count"]), sum(scores["experiences_count"])/len(scores["experiences_count"])]
+        scores["educations_count"] += [sum(scores["educations_count"]), sum(scores["educations_count"])/len(scores["educations_count"])]
 
-        df = pd.DataFrame.from_dict(ner_scores)
-        df.to_csv("stats_ner_score.csv", index=False) 
+        df = pd.DataFrame.from_dict(scores)
+        df.to_csv("stats_score.csv", index=False) 
 
     def _export_profile(self):
         res = export_result.Export_result(self.profile_to_process)
