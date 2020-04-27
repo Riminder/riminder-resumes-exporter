@@ -25,9 +25,9 @@ def check_if_desc_exists(value):
 
 
 def get_score(profile, json_type="underscore"):
-    infos_score, person_score, email_score, phone_score, address_score = infos_score(profile, json_type)
-    exp_score, exp_title_score, exp_desc_score, exp_company_score, exp_start_date_score, exp_end_date_score = exp_score(profile, json_type)
-    edu_score, edu_title_score, edu_desc_score, edu_school_score, edu_start_date_score, edu_end_date_score = edu_score(profile, json_type)
+    infos_score, person_score, email_score, phone_score, address_score = info_score(profile, json_type)
+    exp_score, exp_title_score, exp_desc_score, exp_company_score, exp_start_date_score, exp_end_date_score = exps_score(profile, json_type)
+    edu_score, edu_title_score, edu_desc_score, edu_school_score, edu_start_date_score, edu_end_date_score = edus_score(profile, json_type)
 
     expedus_score = 0.5 * (exp_score + edu_score)
 
@@ -63,7 +63,7 @@ def get_score(profile, json_type="underscore"):
     return return_score
 
 
-def infos_score(profile, json_type="underscore"):
+def info_score(profile, json_type="underscore"):
     infos_score = 0
     person_score = 0
     email_score = 0
@@ -92,7 +92,7 @@ def sub_score(N, nb_tags):
     return 1.0 - 1.0 * abs(N - nb_tags) / max(N, nb_tags)
 
 
-def exp_score(profile, json_type="underscore"):
+def exps_score(profile, json_type="underscore"):
     start_date_name = 'start_date' if json_type == "underscore" else 'startDate'
     end_date_name = 'end_date' if json_type == "underscore" else 'endDate'
 
@@ -141,7 +141,7 @@ def exp_score(profile, json_type="underscore"):
     return exp_score, title_score, desc_score, company_score, start_date_score, end_date_score
 
 
-def edu_score(profile, json_type="underscore"):
+def edus_score(profile, json_type="underscore"):
     start_date_name = 'start_date' if json_type == "underscore" else 'startDate'
     end_date_name = 'end_date' if json_type == "underscore" else 'endDate'
 
